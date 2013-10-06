@@ -19,7 +19,7 @@ public class KillEventParser implements LogLineParser {
 	 * Compila apenas uma vez porque regex é (relativamente) lento
 	 */
 	private static Pattern pattern = Pattern.compile(String.format("%s %s",
-			DATE_PATTERN, "(\\w+) killed (\\w+) using (\\w+)"));
+			DATE_PATTERN, "- (\\w+) killed (\\w+) using (\\w+)"));
 
 	
 	

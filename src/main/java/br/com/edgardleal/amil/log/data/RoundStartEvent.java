@@ -8,8 +8,8 @@ import java.util.Date;
  * 
  */
 public class RoundStartEvent implements GameEvent {
-	private Date start;
 	private Date time;
+	private Round round = new Round();
 
 	public RoundStartEvent() {
 		super();
@@ -17,15 +17,11 @@ public class RoundStartEvent implements GameEvent {
 
 	public RoundStartEvent(Date start) {
 		super();
-		this.start = start;
+		this.time = start;
 	}
 
 	public Date getStart() {
-		return start;
-	}
-
-	public void setStart(Date start) {
-		this.start = start;
+		return time;
 	}
 
 	@Override
@@ -37,4 +33,16 @@ public class RoundStartEvent implements GameEvent {
 		this.time = time;
 	}
 
+	public Round getRound() {
+		return round;
+	}
+
+	public void setRound(Round round) {
+		this.round = round;
+	}
+
+	public RoundStartEvent setRoundId(final long id) {
+		round.setId(id);
+		return this;
+	}
 }

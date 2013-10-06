@@ -17,4 +17,20 @@ public class Round {
 	public static synchronized long getNewId() {
 		return ++roundIdGenerator;
 	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public List<GameEvent> getEvents() {
+		return events;
+	}
+
+	public void setEvents(List<GameEvent> events) {
+		this.events = events;
+	}
 }

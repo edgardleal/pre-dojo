@@ -24,7 +24,7 @@ import br.com.edgardleal.amil.log.parsers.ParserException;
 public class KillEventParserTest {
 
 	KillEventParser parser;
-	String line = "01/01/2012 15:10:10 Joao killed Pedro using Faca";
+	String line = "01/01/2012 15:10:10 - Joao killed Pedro using Faca";
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -51,13 +51,13 @@ public class KillEventParserTest {
 	@Test
 	public void testCheckAction() {
 		assertTrue(!parser
-				.checkLine("01/01/2012 15:10:10 Joao matou Pedro using Faca"));
+				.checkLine("01/01/2012 15:10:10 - Joao matou Pedro using Faca"));
 	}
 
 	@Test
 	public void testCheckDate() {
 		assertTrue(!parser
-				.checkLine("01/01/12 15:10:10 Joao killed Pedro using Faca"));
+				.checkLine("01/01/12 15:10:10 - Joao killed Pedro using Faca"));
 	}
 
 	@Test
