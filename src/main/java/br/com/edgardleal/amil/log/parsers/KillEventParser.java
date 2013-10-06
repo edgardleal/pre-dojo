@@ -1,5 +1,6 @@
 package br.com.edgardleal.amil.log.parsers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,6 +16,8 @@ import br.com.edgardleal.amil.log.data.Weapon;
  * 
  */
 public class KillEventParser implements LogLineParser {
+	List<LogEventListener> listeners = new ArrayList<LogEventListener>();
+	
 	/**
 	 * Compila apenas uma vez porque regex é (relativamente) lento
 	 */
@@ -37,6 +40,9 @@ public class KillEventParser implements LogLineParser {
 					.setWeapon(weapon);
 			event.setTime(dateFormat.parse(matcher.group(1)));
 			events.add(event);
+			for (LogEventListener l : listeners) {
+				l.logEvent(KillEventParser.class, "");
+			}
 		} catch (Exception e) {
 			throw new ParserException(e);
 		}
@@ -45,6 +51,12 @@ public class KillEventParser implements LogLineParser {
 	@Override
 	public boolean checkLine(String line) {
 		return line != null && pattern.matcher(line).matches();
+	}
+
+	@Override
+	public KillEventParser addEventListener(LogEventListener listener) {
+		listeners.add(listener);
+		return this;
 	}
 
 }

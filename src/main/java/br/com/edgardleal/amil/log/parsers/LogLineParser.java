@@ -19,4 +19,5 @@ public interface LogLineParser {
 			throws ParserException;
 
 	public boolean checkLine(final String line);
+	public LogLineParser addEventListener(LogEventListener listener);
 }
