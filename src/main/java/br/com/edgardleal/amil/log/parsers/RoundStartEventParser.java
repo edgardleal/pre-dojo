@@ -25,14 +25,21 @@ public class RoundStartEventParser implements LogLineParser {
 	public void parserLine(String line, List<GameEvent> events)
 			throws ParserException {
 		try {
+
 			Matcher matcher = pattern.matcher(line);
 			matcher.find();
+			long id = Long.valueOf(matcher.group(2));
 
+			for (LogEventListener listener : listeners) {
+				listener.logEvent(getClass(), String.valueOf(id));
+			}
+			if (events == null)
+				return;
 			RoundStartEvent event = new RoundStartEvent(
-					dateFormat.parse(matcher.group(1))).setRoundId(Long
-					.valueOf(matcher.group(2)));
+					dateFormat.parse(matcher.group(1))).setRoundId(id);
 
 			events.add(event);
+
 		} catch (Exception e) {
 			throw new ParserException(e);
 		}

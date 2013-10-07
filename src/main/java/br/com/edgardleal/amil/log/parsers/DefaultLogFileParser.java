@@ -25,24 +25,24 @@ import br.com.edgardleal.amil.log.parsers.WorldKillEventParser;
  */
 public class DefaultLogFileParser implements LogFileParser, LogEventListener {
 
-	LogLineParser parsers[] = new LogLineParser[] { 
+	List<Round> rounds = new ArrayList<Round>();
+	LogLineParser parsers[] = new LogLineParser[] {
 			new KillEventParser().addEventListener(this),
-			new WorldKillEventParser().addEventListener(this), 
+			new WorldKillEventParser().addEventListener(this),
 			new RoundStartEventParser().addEventListener(this),
 			new RoundEndEventParser().addEventListener(this) };
 
 	@Override
 	public List<Round> parser(File file) {
 		BufferedReader reader = null;
-		List<Round> rounds = new ArrayList<Round>();
 		try {
 			reader = new BufferedReader(new FileReader(file));
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				for (LogLineParser parser : parsers) {
 					if (parser.checkLine(line)) {
-						parser.parserLine(line, rounds.get(rounds.size() - 1)
-								.getEvents());
+						parser.parserLine(line, (rounds.size() > 0 ? rounds
+								.get(rounds.size() - 1).getEvents() : null));
 						continue;
 					}
 				}
@@ -65,8 +65,9 @@ public class DefaultLogFileParser implements LogFileParser, LogEventListener {
 
 	@Override
 	public void logEvent(Class<? extends LogLineParser> parser, String info) {
-		// TODO Auto-generated method stub
-		
+		if (parser == RoundStartEventParser.class) {
+			rounds.add(new Round().setId(Long.valueOf(info)));
+		}
 	}
 
 }
